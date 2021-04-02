@@ -25,11 +25,10 @@ INPUTS.forEach(input => {
 });
 
 function colorLabel(input, label) {
-  console.log(input.validity.valid);
   if (!input.validity.valid) {
-    label?.style.setProperty("color", "var(--error-color)");
+    label.style.setProperty("color", "var(--error-color)");
   } else {
-    label?.style.setProperty("color", "initial");
+    label.style.setProperty("color", "initial");
   }
 }
 

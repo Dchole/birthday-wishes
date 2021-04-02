@@ -30,7 +30,7 @@
           <label for="firstName">First Name</label>
           <input
             type="text"
-            name="fname"
+            name="firstName"
             id="firstName"
             autocomplete="given-name"
             autocapitalize="on"
@@ -42,7 +42,7 @@
           <label for="lastName">Last Name</label>
           <input
             type="text"
-            name="lname"
+            name="lastName"
             id="lastName"
             autocomplete="family-name"
             autocapitalize="on"
@@ -59,37 +59,10 @@
             required
           />
         </div>
-        <fieldset id="date" class="form-control">
-          <legend>Date of birth</legend>
-          <div id="day-field">
-            <input
-              type="number"
-              placeholder="DD"
-              name="day"
-              id="day"
-              min="1"
-              max="31"
-              pattern="[0-9]{2}"
-              aria-label="day"
-              autocomplete="bday-day"
-              required
-            />
-          </div>
-          <div id="month-field">
-            <input
-              type="number"
-              placeholder="MM"
-              name="month"
-              id="month"
-              min="1"
-              max="12"
-              pattern="[0-9]{2}"
-              aria-label="month"
-              autocomplete="bday-month"
-              required
-            />
-          </div>
-        </fieldset>
+        <div class="form-control">
+          <label for="dob">Date of Birth</label>
+          <input type="date" name="dob" id="dob" autocomplete="bday" required />
+        </div>
         <button type="submit">Subscribe</button>
       </form>
     </main>
