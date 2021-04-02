@@ -1,0 +1,43 @@
+@import "partials/variables";
+@import "partials/form";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--secondary-color);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+h1 {
+  text-align: center;
+  text-transform: uppercase;
+  font-family: var(--secondary-font);
+  color: var(--primary-text-color);
+}
+
+main {
+  background-color: white;
+  padding: 16px;
+  min-height: 100vh;
+  margin: auto;
+
+  @media (min-width: 500px) {
+    min-height: auto;
+  }
+
+  #cake-banner {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    span {
+      font-size: xx-large;
+    }
+  }
+}

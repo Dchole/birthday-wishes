@@ -1,0 +1,72 @@
+form#subscription {
+  display: flex;
+  flex-direction: column;
+
+  .form-control {
+    margin-bottom: var(--spacing);
+    font-family: var(--primary-font);
+
+    &#date {
+      display: flex;
+      gap: calc(var(--spacing) * 2);
+      width: 100%;
+
+      div {
+        width: 100%;
+      }
+    }
+
+    label {
+      color: var(--secondary-text-color);
+      font-size: smaller;
+    }
+
+    input {
+      width: 100%;
+      border-width: 1px;
+      border-style: solid;
+      padding: var(--spacing);
+      margin: calc(var(--spacing) / 2) 0;
+      outline-color: var(--primary-color);
+      font-size: medium;
+
+      &.dirty:invalid {
+        color: var(--error-color);
+        border-color: var(--error-color);
+        outline-color: var(--error-color);
+
+        & ~ p {
+          color: var(--error-color);
+          text-transform: capitalize;
+        }
+      }
+
+      & ~ p {
+        margin: 0;
+        font-size: 12px;
+        margin-left: var(--spacing);
+      }
+    }
+  }
+
+  button {
+    border: none;
+    padding: 10px;
+    margin: var(--spacing) 0;
+    text-transform: uppercase;
+    font-size: medium;
+    font-weight: 500;
+    font-family: var(--primary-font);
+    cursor: pointer;
+
+    &:not(:disabled) {
+      background-color: var(--primary-color);
+      transition: background-color ease-out 120ms;
+
+      &:hover,
+      &:focus {
+        background-color: var(--primary-color-light);
+      }
+    }
+  }
+}
