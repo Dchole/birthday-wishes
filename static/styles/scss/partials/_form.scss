@@ -6,16 +6,6 @@ form#subscription {
     margin-bottom: var(--spacing);
     font-family: var(--primary-font);
 
-    &#date {
-      display: flex;
-      gap: calc(var(--spacing) * 2);
-      width: 100%;
-
-      div {
-        width: 100%;
-      }
-    }
-
     label {
       color: var(--secondary-text-color);
       font-size: smaller;
@@ -67,6 +57,10 @@ form#subscription {
       &:focus {
         background-color: var(--primary-color-light);
       }
+    }
+
+    &:disabled {
+      cursor: not-allowed;
     }
   }
 }

@@ -7,6 +7,8 @@ FORM.addEventListener("submit", handleSubmit);
 async function handleSubmit(event) {
   event.preventDefault();
 
+  const submitButton = this.querySelector('button[type="submit"]');
+
   const formData = {};
   const fields = this.querySelectorAll("input");
 
@@ -24,19 +26,32 @@ async function handleSubmit(event) {
       formData[name] = value;
     });
 
-  const res = await fetch(`${location.href}/api/subscribe.php`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(formData)
-  });
+  try {
+    setSubmitting(submitButton, true);
 
-  if (!res.ok) {
-    console.error("Error");
-    return;
+    const res = await fetch(`${location.href}/api/subscribe.php`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    });
+
+    if (!res.ok) {
+      console.error("Error");
+      return;
+    }
+
+    const data = await res.json();
+    console.log(data);
+  } catch (error) {
+    console.error(error.message);
+  } finally {
+    setSubmitting(submitButton, false);
   }
+}
 
-  const data = await res.json();
-  console.log(data);
+function setSubmitting(button, isSubmitting) {
+  button.disabled = isSubmitting;
+  button.setAttribute("aria-busy", isSubmitting);
 }
