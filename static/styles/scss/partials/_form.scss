@@ -2,9 +2,13 @@ form#subscription {
   display: flex;
   flex-direction: column;
 
-  .form-control {
-    margin-bottom: var(--spacing);
+  fieldset {
     font-family: var(--primary-font);
+    margin-bottom: var(--spacing);
+  }
+
+  .form-control {
+    @extend fieldset;
 
     label {
       color: var(--secondary-text-color);

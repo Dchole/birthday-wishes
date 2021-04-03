@@ -1,4 +1,7 @@
-const INPUTS = document.querySelectorAll("form#subscription input");
+// Select all inputs except radio buttons
+const INPUTS = document.querySelectorAll(
+  "form#subscription input:not([type=radio])"
+);
 
 INPUTS.forEach(input => {
   const [label] = input.labels; // Get label for input
