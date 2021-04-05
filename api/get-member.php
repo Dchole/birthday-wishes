@@ -10,11 +10,12 @@ $db = $database->connect();
 
 $member = new Member($db);
 
-$member->id = isset($_GET["id"]) ? $_GET["id"] : die();
+$member->account = isset($_GET["account"]) ? $_GET["account"] : die();
 
 $member->readOne();
 
 $member_arr = array(
+    "id" => $member->id,
     "firstName" => $member->firstName,
     "lastName" => $member->lastName,
     "account" => $member->account,

@@ -35,14 +35,15 @@ class Member
 
     public function readOne()
     {
-        $query = "SELECT firstName, lastName, account, channel, dob, confirmed FROM $this->table WHERE id = ?";
+        $query = "SELECT id, firstName, lastName, account, channel, dob, confirmed FROM $this->table WHERE account = ?";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $this->id);
+        $stmt->bindParam(1, $this->account);
         $stmt->execute();
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        $this->id = $row["id"];
         $this->firstName = $row["firstName"];
         $this->lastName = $row["lastName"];
         $this->account = $row["account"];
@@ -58,7 +59,8 @@ class Member
 
         $this->firstName = sanitize_input($this->firstName);
         $this->lastName = sanitize_input($this->lastName);
-        $this->email = sanitize_input($this->email);
+        $this->account = sanitize_input($this->account);
+        $this->channel = sanitize_input($this->channel);
         $this->dob = sanitize_input($this->dob);
 
         $stmt->bindParam(":firstName", $this->firstName);
@@ -84,7 +86,8 @@ class Member
 
         $this->firstName = sanitize_input($this->firstName);
         $this->lastName = sanitize_input($this->lastName);
-        $this->email = sanitize_input($this->email);
+        $this->account = sanitize_input($this->account);
+        $this->channel = sanitize_input($this->channel);
         $this->dob = sanitize_input($this->dob);
         $this->id = sanitize_input($this->id);
 
