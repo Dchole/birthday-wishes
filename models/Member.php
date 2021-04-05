@@ -49,6 +49,8 @@ class Member
         $this->account = $row["account"];
         $this->channel = $row["channel"];
         $this->dob = $row["dob"];
+
+        return $stmt;
     }
 
     public function createOne()
