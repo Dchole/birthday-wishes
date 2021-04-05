@@ -25,7 +25,8 @@ if ($num > 0) {
             "id" => $id,
             "firstName" => $firstName,
             "lastName" => $lastName,
-            "email" => $email,
+            "account" => $account,
+            "channel" => $channel,
             "dob" => $dob
         );
 

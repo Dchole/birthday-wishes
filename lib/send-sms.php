@@ -1,5 +1,5 @@
 <?php
-function sendMessageWithPostReq($message, $medium)
+function sendSMS($message, $recipient)
 {
 
     $ch = curl_init();
@@ -10,7 +10,7 @@ function sendMessageWithPostReq($message, $medium)
                 "from" => "InfoSMS",
                 "destinations" => [
                     [
-                        "to" => "233508472191"
+                        "to" => $recipient
                     ]
                 ],
                 "text" => $message
@@ -18,9 +18,7 @@ function sendMessageWithPostReq($message, $medium)
         ]
     ];
 
-
     $url = "https://9rvwlr.api.infobip.com/sms/1/text/advanced";
-
 
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

@@ -6,7 +6,7 @@ header("Content-Type: application/json");
 
 include_once "../config/Database.php";
 include_once "../models/Member.php";
-include_once "../utils/send-message.php";
+include_once "../lib/Sender.php";
 
 $database = new Database();
 $db = $database->connect();
@@ -17,11 +17,11 @@ $data = json_decode(file_get_contents("php://input"));
 
 $member->firstName = $data->firstName;
 $member->lastName = $data->lastName;
-$member->email = $data->email;
+$member->account = $data->account;
+$member->channel = $data->channel;
 $member->dob = $data->dob;
 
 if ($member->createOne()) {
-    sendMessage("Hello World", "email");
     echo json_encode(array("message" => "Date Saved Successfully."));
 } else {
     echo json_encode(array("message" => "Submission Failed!"));

@@ -9,7 +9,8 @@ class Member
     public $id;
     public $firstName;
     public $lastName;
-    public $email;
+    public $account;
+    public $channel;
     public $dob;
     public $confirmed;
 
@@ -21,7 +22,7 @@ class Member
     public function read()
     {
         // Read query
-        $query = "SELECT id, firstName, lastName, email, dob, confirmed FROM $this->table";
+        $query = "SELECT id, firstName, lastName, account, channel, dob, confirmed FROM $this->table";
 
         // Prepare statement
         $stmt = $this->conn->prepare($query);
@@ -34,7 +35,7 @@ class Member
 
     public function readOne()
     {
-        $query = "SELECT firstName, lastName, email, dob FROM $this->table WHERE id = ?";
+        $query = "SELECT firstName, lastName, account, channel, dob, confirmed FROM $this->table WHERE id = ?";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $this->id);
@@ -44,13 +45,14 @@ class Member
 
         $this->firstName = $row["firstName"];
         $this->lastName = $row["lastName"];
-        $this->email = $row["email"];
+        $this->account = $row["account"];
+        $this->channel = $row["channel"];
         $this->dob = $row["dob"];
     }
 
     public function createOne()
     {
-        $query = "INSERT INTO $this->table(firstName, lastName, email, dob) VALUES(:firstName, :lastName, :email, :dob)";
+        $query = "INSERT INTO $this->table(firstName, lastName, account, channel, dob) VALUES(:firstName, :lastName, :account, :channel, :dob)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -61,7 +63,8 @@ class Member
 
         $stmt->bindParam(":firstName", $this->firstName);
         $stmt->bindParam(":lastName", $this->lastName);
-        $stmt->bindParam(":email", $this->email);
+        $stmt->bindParam(":account", $this->account);
+        $stmt->bindParam(":channel", $this->channel);
         $stmt->bindParam(":dob", $this->dob);
 
         if ($stmt->execute()) {
@@ -75,7 +78,7 @@ class Member
 
     public function updateOne()
     {
-        $query = "UPDATE $this->table SET firstName = :firstName, lastName = :lastName, email = :email, dob = :dob WHERE id = :id";
+        $query = "UPDATE $this->table SET firstName = :firstName, lastName = :lastName, account = :account, channel = :channel, dob = :dob WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
 
@@ -87,7 +90,8 @@ class Member
 
         $stmt->bindParam(":firstName", $this->firstName);
         $stmt->bindParam(":lastName", $this->lastName);
-        $stmt->bindParam(":email", $this->email);
+        $stmt->bindParam(":account", $this->account);
+        $stmt->bindParam(":channel", $this->channel);
         $stmt->bindParam(":dob", $this->dob);
         $stmt->bindParam(":id", $this->id);
 

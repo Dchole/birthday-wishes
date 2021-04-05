@@ -17,7 +17,8 @@ $data = json_decode(file_get_contents("php://input"));
 $member->id = $data->id;
 $member->firstName = $data->firstName;
 $member->lastName = $data->lastName;
-$member->email = $data->email;
+$member->account = $data->account;
+$member->channel = $data->channel;
 $member->dob = $data->dob;
 
 if ($member->updateOne()) {

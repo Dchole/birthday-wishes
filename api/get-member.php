@@ -17,7 +17,8 @@ $member->readOne();
 $member_arr = array(
     "firstName" => $member->firstName,
     "lastName" => $member->lastName,
-    "email" => $member->email,
+    "account" => $member->account,
+    "channel" => $member->channel,
     "dob" => $member->dob
 );
 
