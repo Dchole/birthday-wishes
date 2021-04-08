@@ -21,6 +21,11 @@ h1 {
   color: var(--primary-text-color);
 }
 
+.srOnly {
+  height: 0.01px;
+  transform: translateX(100vw);
+}
+
 main {
   background-color: white;
   padding: 16px;
