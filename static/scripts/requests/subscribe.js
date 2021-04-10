@@ -1,39 +1,7 @@
-import { storeSession } from "../session-storage.js";
-import {
-  createFormData,
-  formatDate,
-  formConfig,
-  setSubmitting
-} from "../utils.js";
-import sendPostRequest from "./_sendPost.js";
+import handleSubmit from "./handleSubmit.js";
 
-const FORM = document.querySelector("form#subscription");
+const FORM = document.getElementById("subscription");
 
-FORM.addEventListener("submit", handleSubmit);
+console.log(FORM);
 
-async function handleSubmit(event) {
-  event.preventDefault();
-
-  const [submitButton, fields] = formConfig(this);
-
-  const parsedFields = [...fields].map(({ name, value }) => {
-    if (name === "dob") {
-      value = formatDate(value);
-      return { name, value };
-    }
-
-    return { name, value };
-  });
-
-  const formData = createFormData(parsedFields);
-
-  try {
-    setSubmitting(submitButton, true);
-    storeSession(formData);
-    await sendPostRequest("subscribe.php", formData);
-  } catch (error) {
-    console.error(error.message);
-  } finally {
-    setSubmitting(submitButton, false);
-  }
-}
+FORM.addEventListener("submit", event => handleSubmit(event, FORM));

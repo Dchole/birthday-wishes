@@ -1,6 +1,9 @@
 export const formatDate = date =>
   date.split("-").reverse().join("-").slice(0, 5);
 
+export const reformDate = date =>
+  `${new Date().getFullYear()}-` + date.split("-").reverse().join("-");
+
 export const formConfig = form => {
   const submitButton = form.querySelector('button[type="submit"]');
   const fields = form.querySelectorAll("input");

@@ -1,6 +1,6 @@
 import { editSession } from "../session-storage.js";
 import { createFormData, formConfig, setSubmitting } from "../utils.js";
-import sendPostRequest from "./_sendPost.js";
+import sendPostRequest from "../sendPost.js";
 
 const FORM = document.getElementById("confirmation-form");
 

@@ -48,6 +48,7 @@ class Member
         $this->lastName = $row["lastName"];
         $this->account = $row["account"];
         $this->channel = $row["channel"];
+        $this->confirmed = $row["confirmed"];
         $this->dob = $row["dob"];
 
         return $stmt;
@@ -70,6 +71,26 @@ class Member
         $stmt->bindParam(":account", $this->account);
         $stmt->bindParam(":channel", $this->channel);
         $stmt->bindParam(":dob", $this->dob);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+
+        printf("Error: %s.\n", $stmt->error);
+
+        return false;
+    }
+
+    public function confirm()
+    {
+        $query = "UPDATE $this->table SET confirmed = :confirmed WHERE id = :id";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->id = sanitize_input($this->id);
+
+        $stmt->bindParam(":confirmed", true);
+        $stmt->bindParam(":id", $this->id);
 
         if ($stmt->execute()) {
             return true;

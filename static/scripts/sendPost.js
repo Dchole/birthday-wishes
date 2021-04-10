@@ -1,4 +1,4 @@
-import { redirect } from "../utils.js";
+import { redirect } from "./utils.js";
 
 async function sendPostRequest(pathname, data) {
   const res = await fetch(`${location.origin}/wishes/api/${pathname}`, {

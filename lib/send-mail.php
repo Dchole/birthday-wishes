@@ -1,77 +1,45 @@
 <?php
-define('MULTIPART_BOUNDARY', '----' . md5(time()));
-define('EOL', "\r\n"); // PHP_EOL cannot be used for emails we need the CRFL '\r\n'
+//Import PHPMailer classes into the global namespace
+//These must be at the top of your script, not inside a function
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
-function getBodyPart($FORM_FIELD, $value)
+//Load Composer's autoloader
+require '../vendor/autoload.php';
+
+//Instantiation and passing `true` enables exceptions
+
+function sendMail($message, $confirmation)
 {
-    if ($FORM_FIELD === 'attachment') {
-        $content = 'Content-Disposition: form-data; name="' . $FORM_FIELD . '"; filename="' . basename($value) . '"' . EOL;
-        $content .= 'Content-Type: ' . mime_content_type($value) . EOL;
-        $content .= 'Content-Transfer-Encoding: binary' . EOL;
-        $content .= EOL . file_get_contents($value) . EOL;
-    } else {
-        $content = 'Content-Disposition: form-data; name="' . $FORM_FIELD . '"' . EOL;
-        $content .= EOL . $value . EOL;
+    $mail = new PHPMailer(true);
+
+    try {
+        //Server settings
+        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+        $mail->isSMTP();                                            //Send using SMTP
+        $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+        $mail->Username   = 'derekoware47@gmail.com';                     //SMTP username
+        $mail->Password   = 'zvzopvdyljybxvle';                               //SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+        $mail->Port       = 587;                                    //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+
+        //Recipients
+        $mail->setFrom('derekoware47@gmail.com', 'Mailer');
+        $mail->addAddress('derekoware47@gmail.com', 'Birthday Wishes');     //Add a recipient
+        $mail->addReplyTo('derekoware47@gmail.com', 'Information');
+        $mail->addCC('derekoware47@gmail.com');
+        $mail->addBCC('derekoware47@gmail.com');
+
+        //Content
+        $mail->isHTML(true);                                  //Set email format to HTML
+        $mail->Subject = $confirmation ? "Confirmation Code" : "🥳🥳🥳 HAPPY BIRTHDAY!!! 🎊🎉🎇";
+        $mail->Body    = $message;
+
+        $mail->send();
+        echo 'Message has been sent';
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
-
-    return $content;
-}
-
-/*
- * Method to convert an associative array of parameters into the HTML body string
-*/
-function getBody($fields)
-{
-    $content = '';
-    foreach ($fields as $FORM_FIELD => $value) {
-        $values = is_array($value) ? $value : array($value);
-        foreach ($values as $v) {
-            $content .= '--' . MULTIPART_BOUNDARY . EOL . getBodyPart($FORM_FIELD, $v);
-        }
-    }
-    return $content . '--' . MULTIPART_BOUNDARY . '--'; // Email body should end with "--"
-}
-
-/*
- * Method to get the headers for a basic authentication with username and passowrd
-*/
-function getHeader($username, $password)
-{
-    // basic Authentication
-    $auth = base64_encode("$username:$password");
-
-    // Define the header
-    return array('Authorization:Basic ' . $auth, 'Content-Type: multipart/form-data ; boundary=' . MULTIPART_BOUNDARY);
-}
-
-function sendMail($message, $recipient, $confirmation)
-{
-
-    $url = "";
-
-    // Associate Array of the post parameters to be sent to the API
-    $postData = array(
-        "from" => "umatBunny@selfserviceib.com",
-        "to" => $recipient,
-        "subject" => $confirmation ? "Verify Email" : "Happy Birthday",
-        "text" => $message,
-        "html" => '
-<h1>HAPPY BIRTHDAY!!!</h1>
-Special Happy birthday wishes :D
-
-',
-    );
-
-    // Create the stream context.
-    $context = stream_context_create(array(
-        'http' => array(
-            'method' => 'POST',
-            'header' => getHeader('umatBunny', 'jwsz3vd.WG_*3EN'),
-            'content' =>  getBody($postData),
-        )
-    ));
-
-    // Read the response using the Stream Context.
-    $response = file_get_contents($url, false, $context);
-    echo $response;
 }
