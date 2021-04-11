@@ -10,7 +10,7 @@ require '../vendor/autoload.php';
 
 //Instantiation and passing `true` enables exceptions
 
-function sendMail($message, $confirmation)
+function sendMail($message, $recipient, $confirmation)
 {
     $mail = new PHPMailer(true);
 
@@ -27,7 +27,7 @@ function sendMail($message, $confirmation)
 
         //Recipients
         $mail->setFrom('derekoware47@gmail.com', 'Mailer');
-        $mail->addAddress('derekoware47@gmail.com', 'Birthday Wishes');     //Add a recipient
+        $mail->addAddress($recipient, 'Birthday Wishes');     //Add a recipient
         $mail->addReplyTo('derekoware47@gmail.com', 'Information');
         $mail->addCC('derekoware47@gmail.com');
         $mail->addBCC('derekoware47@gmail.com');

@@ -3,6 +3,7 @@
 include_once "../config/Database.php";
 include_once "../models/Member.php";
 include_once "../lib/Sender.php";
+include_once "../utils/format-date.php";
 
 session_start();
 
@@ -21,16 +22,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $member->lastName = $_POST["lastName"];
   $member->channel = $_POST["channel"];
   $member->account = $_POST["account"];
-  $member->dob = $_POST["dob"];
+  $member->dob = formatDate($_POST["dob"]);
 
-  if ($member->createOne()) {
-    $sender = new Sender($member->account, $member->channel);
+  header("location: /wishes/confirmation");
+  // if ($member->createOne()) {
+  //   $sender = new Sender($member->account, $member->channel);
 
-    $confirmationCode = random_int(1000, 9999);
-    $sender->sendMessage("Confirmation Code: $confirmationCode", true);
-  } else {
-    echo json_encode(array("message" => "Submission Failed!"));
-  }
+  //   $confirmationCode = random_int(1000, 9999);
+  //   $sender->sendMessage("Confirmation Code: $confirmationCode", true);
+  //   header("location: /wishes/confirmation");
+  // } else {
+  //   echo json_encode(array("message" => "Submission Failed!"));
+  // }
 }
 
 ?>
