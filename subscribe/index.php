@@ -8,8 +8,6 @@ include_once "../utils/redirect.php";
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $confirmationCode = random_int(1000, 9999);
-  $_SESSION["confirmation_code"] = $confirmationCode;
 
   $database = new Database();
   $db = $database->connect();
@@ -20,12 +18,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $member->lastName = $_POST["lastName"];
   $member->channel = $_POST["channel"];
   $member->account = $_POST["account"];
-  $member->dob = formatDate($_POST["dob"]);
+  $member->dob = $_POST["dob"];
 
   if ($member->createOne()) {
-    $sender = new Sender($member->account, $member->channel);
-
     $confirmationCode = random_int(1000, 9999);
+
+    $_SESSION["confirmation_code"] = $confirmationCode;
+    $_SESSION["user"] = null;
+    $_SESSION["account"] = $member->account;
+
+    $sender = new Sender($member->account, $member->channel);
     $sender->sendMessage("Confirmation Code: $confirmationCode", true);
     redirect("confirmation");
   } else {

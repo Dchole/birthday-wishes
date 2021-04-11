@@ -83,14 +83,14 @@ class Member
 
     public function confirm()
     {
-        $query = "UPDATE $this->table SET confirmed = :confirmed WHERE id = :id";
+        $confirmed = true;
+        $query = "UPDATE $this->table SET confirmed = $confirmed WHERE account = :account";
 
         $stmt = $this->conn->prepare($query);
 
-        $this->id = sanitize_input($this->id);
+        $this->account = sanitize_input($this->account);
 
-        $stmt->bindParam(":confirmed", true);
-        $stmt->bindParam(":id", $this->id);
+        $stmt->bindParam(":account", $this->account);
 
         if ($stmt->execute()) {
             return true;
@@ -103,23 +103,21 @@ class Member
 
     public function updateOne()
     {
-        $query = "UPDATE $this->table SET firstName = :firstName, lastName = :lastName, account = :account, channel = :channel, dob = :dob WHERE id = :id";
+        $query = "UPDATE $this->table SET firstName = :firstName, lastName = :lastName, account = :account, channel = :channel, dob = :dob WHERE account = :account";
 
         $stmt = $this->conn->prepare($query);
 
         $this->firstName = sanitize_input($this->firstName);
         $this->lastName = sanitize_input($this->lastName);
-        $this->account = sanitize_input($this->account);
         $this->channel = sanitize_input($this->channel);
+        $this->account = sanitize_input($this->account);
         $this->dob = sanitize_input($this->dob);
-        $this->id = sanitize_input($this->id);
 
         $stmt->bindParam(":firstName", $this->firstName);
         $stmt->bindParam(":lastName", $this->lastName);
-        $stmt->bindParam(":account", $this->account);
         $stmt->bindParam(":channel", $this->channel);
+        $stmt->bindParam(":account", $this->account);
         $stmt->bindParam(":dob", $this->dob);
-        $stmt->bindParam(":id", $this->id);
 
         if ($stmt->execute()) {
             return true;

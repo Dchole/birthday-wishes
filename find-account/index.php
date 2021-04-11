@@ -4,14 +4,11 @@ include_once "../models/Member.php";
 include_once "../lib/Sender.php";
 include_once "../utils/sanitize.php";
 include_once "../utils/redirect.php";
+include_once "../utils/parse-user.php";
 
 session_start();
 
 if (isset($_GET["account"])) {
-  $confirmationCode = random_int(1000, 9999);
-
-  $_SESSION["confirmation_code"] = $confirmationCode;
-  $_SESSION["updating_details"] = true;
 
   $database = new Database();
   $db = $database->connect();
@@ -22,16 +19,16 @@ if (isset($_GET["account"])) {
 
   $member->readOne();
 
-  $member_arr = array(
-    "id" => $member->id,
-    "account" => $member->account,
-    "channel" => $member->channel,
-  );
+  $member_arr = parseUser($member);
 
   if ($member_arr["id"]) {
-    $sender = new Sender($member->account, $member->channel);
+    $confirmationCode = random_int(1000, 9999);
 
+    $sender = new Sender($member->account, $member->channel);
     $sender->sendMessage("Confirmation Code: $confirmationCode", true);
+
+    $_SESSION["confirmation_code"] = $confirmationCode;
+    $_SESSION["user"] = $member_arr;
     redirect("confirmation");
   } else {
     echo "<p>No Account Match</p>";

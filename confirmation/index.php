@@ -11,8 +11,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $code = sanitize_input($_POST["code"]);
 
   if (intval($code) == $_SESSION["confirmation_code"]) {
-    if ($_SESSION["updating_details"]) redirect("edit-account-details");
-    else echo "<p>Confirmed</p>";
+    if ($_SESSION["user"]) redirect("edit-account-details");
+    else {
+
+      $database = new Database();
+      $db = $database->connect();
+
+      $member = new Member($db);
+      $member->account = $_SESSION["account"];
+
+      $member->confirm();
+
+      echo "<p>Confirmed</p>";
+    }
   } else {
     echo "<p>Error: Wrong Code</p>";
   }
