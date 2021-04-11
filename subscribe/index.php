@@ -1,39 +1,36 @@
 <?php
-
 include_once "../config/Database.php";
 include_once "../models/Member.php";
 include_once "../lib/Sender.php";
 include_once "../utils/format-date.php";
+include_once "../utils/redirect.php";
 
 session_start();
 
-$string = "string";
-
-$confirmationCode = random_int(1000, 9999);
-$_SESSION["confirmation_code"] = $confirmationCode;
-
-$database = new Database();
-$db = $database->connect();
-
-$member = new Member($db);
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $confirmationCode = random_int(1000, 9999);
+  $_SESSION["confirmation_code"] = $confirmationCode;
+
+  $database = new Database();
+  $db = $database->connect();
+
+  $member = new Member($db);
+
   $member->firstName = $_POST["firstName"];
   $member->lastName = $_POST["lastName"];
   $member->channel = $_POST["channel"];
   $member->account = $_POST["account"];
   $member->dob = formatDate($_POST["dob"]);
 
-  header("location: /wishes/confirmation");
-  // if ($member->createOne()) {
-  //   $sender = new Sender($member->account, $member->channel);
+  if ($member->createOne()) {
+    $sender = new Sender($member->account, $member->channel);
 
-  //   $confirmationCode = random_int(1000, 9999);
-  //   $sender->sendMessage("Confirmation Code: $confirmationCode", true);
-  //   header("location: /wishes/confirmation");
-  // } else {
-  //   echo json_encode(array("message" => "Submission Failed!"));
-  // }
+    $confirmationCode = random_int(1000, 9999);
+    $sender->sendMessage("Confirmation Code: $confirmationCode", true);
+    redirect("confirmation");
+  } else {
+    echo json_encode(array("message" => "Submission Failed!"));
+  }
 }
 
 ?>

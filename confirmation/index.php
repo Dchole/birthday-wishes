@@ -2,6 +2,7 @@
 include_once "../config/Database.php";
 include_once "../models/Member.php";
 include_once "../utils/sanitize.php";
+include_once "../utils/redirect.php";
 
 session_start();
 
@@ -10,7 +11,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $code = sanitize_input($_POST["code"]);
 
   if (intval($code) == $_SESSION["confirmation_code"]) {
-    echo "<p>Confirmed</p>";
+    if ($_SESSION["updating_details"]) redirect("edit-account-details");
+    else echo "<p>Confirmed</p>";
   } else {
     echo "<p>Error: Wrong Code</p>";
   }

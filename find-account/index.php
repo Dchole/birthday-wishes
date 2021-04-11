@@ -1,3 +1,44 @@
+<?php
+include_once "../config/Database.php";
+include_once "../models/Member.php";
+include_once "../lib/Sender.php";
+include_once "../utils/sanitize.php";
+include_once "../utils/redirect.php";
+
+session_start();
+
+if (isset($_GET["account"])) {
+  $confirmationCode = random_int(1000, 9999);
+
+  $_SESSION["confirmation_code"] = $confirmationCode;
+  $_SESSION["updating_details"] = true;
+
+  $database = new Database();
+  $db = $database->connect();
+
+  $member = new Member($db);
+
+  $member->account = $_GET["account"];
+
+  $member->readOne();
+
+  $member_arr = array(
+    "id" => $member->id,
+    "account" => $member->account,
+    "channel" => $member->channel,
+  );
+
+  if ($member_arr["id"]) {
+    $sender = new Sender($member->account, $member->channel);
+
+    $sender->sendMessage("Confirmation Code: $confirmationCode", true);
+    redirect("confirmation");
+  } else {
+    echo "<p>No Account Match</p>";
+  }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,16 +46,15 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Edit Account Details</title>
-  <link rel="stylesheet" href="./static/styles/main.css" />
-  <script src="static/scripts/requests/find-user.js" type="module" defer></script>
+  <title>Find Account</title>
+  <link rel="stylesheet" href="../static/styles/main.css" />
 </head>
 
 <body>
-  <h1 class="srOnly">Edit Details</h1>
+  <h1 class="srOnly">Find Account</h1>
   <main>
     <h2>Enter Account Address</h2>
-    <form id="edit-form" action="#">
+    <form id="edit-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
       <div>
         <label for="account">Account</label>
         <input type="text" id="account" name="account" autofocus required />

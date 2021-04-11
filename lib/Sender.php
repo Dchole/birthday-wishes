@@ -19,8 +19,4 @@ class Sender
             ? sendSMS($message, $this->recipient)
             : sendMail($message, $this->recipient, $confirmation);
     }
-
-    function sendMail($message, $confirmation = false)
-    {
-    }
 }

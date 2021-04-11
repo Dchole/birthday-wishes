@@ -41,7 +41,7 @@ function sendSMS($message, $recipient)
     if ($e = curl_error($ch)) {
         echo $e;
     } else {
-        echo "<pre>$response</pre>";
+        return $response;
     }
 
     curl_close($ch);
