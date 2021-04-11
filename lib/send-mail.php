@@ -34,7 +34,7 @@ function sendMail($message, $recipient, $confirmation)
 
         //Content
         $mail->isHTML(true);                                  //Set email format to HTML
-        $mail->Subject = $confirmation ? "Confirmation Code" : "🥳🥳🥳 HAPPY BIRTHDAY!!! 🎊🎉🎇";
+        $mail->Subject = $confirmation ? "Confirmation Code" : "HAPPY BIRTHDAY!!!";
         $mail->Body    = $message;
 
         $mail->send();

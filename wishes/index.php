@@ -1,7 +1,8 @@
 <?php
-include_once "../lib/Sender.php";
 include_once "../config/Database.php";
 include_once "../models/Member.php";
+include_once "../lib/Sender.php";
+include_once "../utils/format-date.php";
 
 $database = new Database();
 $db = $database->connect();
@@ -18,7 +19,7 @@ if ($num > 0) {
     while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
         extract($row);
 
-        if (date("d-m") == $dob && $confirmed) {
+        if (date("d-m") == formatDate($dob) && $confirmed) {
             $sender = new Sender($account, $channel);
             $sender->sendMessage("Happy Birthday!!!");
         }
