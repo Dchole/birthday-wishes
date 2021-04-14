@@ -21,6 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     elseif ($_SESSION["deleting_user"]) {
       $member->deleteOne();
       echo "<p>Unsubscribed Successfully!</p>";
+      $_SESSION["deleting_user"] = false;
     } else {
       $member->confirm();
       echo "<p>Confirmed</p>";
