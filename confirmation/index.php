@@ -11,17 +11,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $code = sanitize_input($_POST["code"]);
 
   if (intval($code) == $_SESSION["confirmation_code"]) {
+    $database = new Database();
+    $db = $database->connect();
+
+    $member = new Member($db);
+    $member->account = $_SESSION["account"];
+
     if ($_SESSION["user"]) redirect("edit-account-details");
-    else {
-
-      $database = new Database();
-      $db = $database->connect();
-
-      $member = new Member($db);
-      $member->account = $_SESSION["account"];
-
+    elseif ($_SESSION["deleting_user"]) {
+      $member->deleteOne();
+      echo "<p>Unsubscribed Successfully!</p>";
+    } else {
       $member->confirm();
-
       echo "<p>Confirmed</p>";
     }
   } else {
@@ -34,19 +35,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="../static/styles/main.css" />
+  <?php include_once "../templates/head.html" ?>
   <title>Confirm Your Account</title>
 </head>
 
 <body>
-  <h1 class="srOnly">Confirm your account</h1>
+  <?php include_once "../templates/header.html" ?>
   <main>
-    <h2>Enter the confirmation code</h2>
+    <h2>Confirm your account</h2>
     <form id="confirmation-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-      <div>
+      <div class="form-control">
         <label for="code">Confirmation Code</label>
         <input type="text" id="code" name="code" autocomplete="off" autofocus required />
       </div>

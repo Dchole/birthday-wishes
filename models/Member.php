@@ -130,11 +130,11 @@ class Member
 
     public function deleteOne()
     {
-        $query = "DELETE FROM $this->table WHERE id = :id";
+        $query = "DELETE FROM $this->table WHERE account = :account";
 
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(":id", $this->id);
+        $stmt->bindParam(":account", $this->account);
 
         if ($stmt->execute()) {
             return true;

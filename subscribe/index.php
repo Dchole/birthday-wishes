@@ -36,27 +36,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Birthday Wishes</title>
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=RobotoRoboto:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../static/styles/main.css" />
-  <script src="static/scripts/ui.js" defer></script>
-  <style>
-    main {
-      width: min(450px, 100%);
-    }
-  </style>
+  <?php include_once "../templates/head.html"; ?>
+  <title>Subscribe</title>
 </head>
 
 <body>
+  <?php include_once "../templates/header.html"; ?>
   <main>
     <div id="cake-banner">
       <span role="img" aria-label="birthday cake emoji">🎂</span>

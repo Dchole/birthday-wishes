@@ -21,7 +21,7 @@ if (isset($_GET["account"])) {
 
   $member_arr = parseUser($member);
 
-  if ($member_arr["id"]) {
+  if ($member_arr["account"]) {
     $confirmationCode = random_int(1000, 9999);
 
     $sender = new Sender($member->account, $member->channel);
@@ -40,19 +40,15 @@ if (isset($_GET["account"])) {
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Find Account</title>
-  <link rel="stylesheet" href="../static/styles/main.css" />
+  <?php include_once "../templates/head.html" ?>
 </head>
 
 <body>
-  <h1 class="srOnly">Find Account</h1>
+  <?php include_once "../templates/header.html" ?>
   <main>
     <h2>Enter Account Address</h2>
     <form id="edit-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-      <div>
+      <div class="form-control">
         <label for="account">Account</label>
         <input type="text" id="account" name="account" autofocus required />
       </div>

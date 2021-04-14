@@ -21,9 +21,38 @@ h1 {
   color: var(--primary-text-color);
 }
 
-.srOnly {
-  height: 0.01px;
-  transform: translateX(100vw);
+h2 {
+  @extend h1;
+  font-family: var(--primary-font);
+}
+
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  nav {
+    padding: var(--spacing) calc(var(--spacing) * 6);
+
+    ul {
+      list-style-type: none;
+      display: flex;
+      gap: calc(var(--spacing) * 3);
+      justify-content: flex-end;
+      align-items: center;
+
+      a {
+        text-decoration: none;
+        color: var(--secondary-text-color);
+        font-family: var(--primary-font);
+        font-weight: 500;
+        font-size: 1.12rem;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
 }
 
 main {
