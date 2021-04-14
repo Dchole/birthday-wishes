@@ -20,14 +20,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($_SESSION["user"]) redirect("edit-account-details");
     elseif ($_SESSION["deleting_user"]) {
       $member->deleteOne();
-      echo "<p>Unsubscribed Successfully!</p>";
+      echo `<p>Unsubscribed Successfully! <span role="img" aria-label="">✅</span></p>`;
       $_SESSION["deleting_user"] = false;
     } else {
       $member->confirm();
-      echo "<p>Confirmed</p>";
+      echo `<p>Confirmed <span role="img" aria-label="">✅</span></p>`;
     }
   } else {
-    echo "<p>Error: Wrong Code</p>";
+    echo `<p>Error: Wrong Code cross <span role="img" aria-label="">❌</span></p>`;
   }
 }
 ?>
