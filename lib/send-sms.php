@@ -1,4 +1,6 @@
 <?php
+include_once "../config/api-key.php";
+
 function sendSMS($message, $recipient)
 {
 
@@ -19,6 +21,7 @@ function sendSMS($message, $recipient)
     ];
 
     $url = "https://9rvwlr.api.infobip.com/sms/1/text/advanced";
+    $token = apiKey();
 
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -27,7 +30,7 @@ function sendSMS($message, $recipient)
         $ch,
         CURLOPT_HTTPHEADER,
         array(
-            'Authorization: App 0a588f9954bf98da2c21c8a818b540ca-68a60945-5673-427f-a511-33f6928585c3',
+            "Authorization: App $token",
             'Content-Type: application/json',
             'Accept: application/json'
         ),
